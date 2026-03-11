@@ -38,15 +38,9 @@ class Settings(BaseSettings):
     db: DatabaseSettings = Field(default_factory=DatabaseSettings)
     app: AppSettings = Field(default_factory=AppSettings)
 
-    # Application parameters
-    resolutions: list[int] = [25, 38, 50, 75, 100]
-    default_resolution: int = 50
-
     # default map coordinates (toulouse)
     center_lat: float = 43.6047
     center_lon: float = 1.3900
-
-    installed_domains: list[str] = ["market_data", "profiles", "searches", "map_configs"]
 
     model_config = SettingsConfigDict(
         env_nested_delimiter="__",

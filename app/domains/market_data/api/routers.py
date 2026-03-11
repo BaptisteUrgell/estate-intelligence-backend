@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException, Query
+from fastapi import APIRouter, HTTPException, Query, status
 
 from app.domains.market_data.api.dependencies import MarketDataServiceDep
 from app.domains.market_data.api.schemas import (
@@ -37,7 +37,9 @@ async def get_map_geojson(
 ):
     geojson = await service.get_geojson(resolution)
     if not geojson:
-        raise HTTPException(status_code=404, detail="GeoJSON non trouvé pour cette résolution")
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="GeoJSON non trouvé pour cette résolution"
+        )
     return geojson
 
 
@@ -67,9 +69,7 @@ async def get_cell_history(
 
 
 @router.post("/analyze/marker", response_model=MarkerAnalysisResponse)
-async def perform_marker_analysis(
-    req: MarkerAnalysisCreate, service: MarketDataServiceDep
-):
+async def perform_marker_analysis(req: MarkerAnalysisCreate, service: MarketDataServiceDep):
     from app.domains.market_data.domain.exceptions import GridCellNotFoundError
 
     try:
