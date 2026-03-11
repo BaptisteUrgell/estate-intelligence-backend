@@ -1,0 +1,26 @@
+repos:
+  - repo: local
+    hooks:
+      # LINTER (Ruff)
+      - id: ruff
+        name: ruff
+        entry: uv run --project backend ruff check --fix
+        language: system
+        types: [python]
+        files: ^backend/
+
+      # FORMATTER (Ruff)
+      - id: ruff-format
+        name: ruff-format
+        entry: uv run --project backend ruff format
+        language: system
+        types: [python]
+        files: ^backend/
+
+      # TYPE CHECKER (Pyright)
+      - id: pyright
+        name: pyright
+        entry: uv run --project backend pyright --project backend
+        language: system
+        types: [python]
+        files: ^backend/
